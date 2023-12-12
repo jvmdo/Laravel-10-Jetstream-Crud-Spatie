@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\UssProviderStoreRequest;
 use App\Http\Requests\UssProviderUpdateRequest;
+use App\Models\User;
 
 class UssProviderController extends Controller
 {
@@ -25,7 +26,9 @@ class UssProviderController extends Controller
             ->paginate(5)
             ->withQueryString();
 
-        return view('app.uss-providers.index', compact('uss_providers', 'search'));
+        $userHasUssProvider = auth()->user()->ussProvider;
+
+        return view('app.uss-providers.index', compact('uss_providers', 'search', 'userHasUssProvider'));
     }
 
     /**
@@ -62,7 +65,7 @@ class UssProviderController extends Controller
     {
         $this->authorize('view', $uss_provider);
 
-        return view('app.uss-providers.show', compact('uss_providers'));
+        return view('app.uss-providers.show', compact('uss_provider'));
     }
 
     /**

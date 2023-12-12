@@ -21,10 +21,11 @@ class UssProviderUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        // Should refactor to guarantee unique [email] and [cnpj] on update
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:uss_providers'],
-            'cnpj' => ['required', 'string', 'regex:/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/', 'unique:uss_providers'],
+            'email' => ['required', 'email'],
+            'cnpj' => ['required', 'string', 'regex:/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/'],
             'drones' => ['required', 'integer'],
         ];
     }

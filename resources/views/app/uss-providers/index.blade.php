@@ -99,20 +99,22 @@
                     </table>
                 </div>
 
-                <div class="mb-5 mt-4">
-                    <div class="flex flex-wrap justify-between">
-                        <div class="md:w-1/2">
-                        </div>
-                        <div class="md:w-1/2 text-right">
-                            @can('create', App\Models\UssProvider::class)
-                                <a href="{{ route('uss-providers.create') }}" class="button button-primary">
-                                    <i class="mr-1 icon ion-md-add"></i>
-                                    Register
-                                </a>
-                            @endcan
+                @if (!$userHasUssProvider)
+                    <div class="mb-5 mt-4">
+                        <div class="flex flex-wrap justify-between">
+                            <div class="md:w-1/2">
+                            </div>
+                            <div class="md:w-1/2 text-right">
+                                @can('create', App\Models\UssProvider::class)
+                                    <a href="{{ route('uss-providers.create') }}" class="button button-primary">
+                                        <i class="mr-1 icon ion-md-add"></i>
+                                        Register
+                                    </a>
+                                @endcan
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </x-partials.card>
         </div>
     </div>
