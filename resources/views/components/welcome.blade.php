@@ -44,8 +44,7 @@
         </p>
 
         <p class="mt-4 text-sm">
-            <a href="{{ route('uss-providers.create') }}"
-                class="inline-flex items-center font-semibold text-indigo-700">
+            <a href="{{ route('uss-providers.index') }}" class="inline-flex items-center font-semibold text-indigo-700">
                 Register your provider
 
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="ml-1 w-5 h-5 fill-indigo-500">
@@ -65,7 +64,7 @@
                     d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
             </svg>
             <h2 class="ml-3 text-xl font-semibold text-gray-900">
-                <a href="https://laracasts.com">Watch status</a>
+                Watch status
             </h2>
         </div>
 

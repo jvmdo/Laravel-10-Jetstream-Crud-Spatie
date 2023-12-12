@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Scopes\Searchable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class UssProvider extends Model
 {
@@ -20,4 +21,9 @@ class UssProvider extends Model
     ];
 
     protected $searchableFields = ['*'];
+
+    public function status(): HasOne
+    {
+        return $this->hasOne(Status::class);
+    }
 }
