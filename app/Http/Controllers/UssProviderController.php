@@ -6,8 +6,8 @@ use App\Models\UssProvider;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use app\Http\Requests\UssProviderStoreRequest;
-use app\Http\Requests\UssProviderUpdateRequest;
+use App\Http\Requests\UssProviderStoreRequest;
+use App\Http\Requests\UssProviderUpdateRequest;
 
 class UssProviderController extends Controller
 {
@@ -46,11 +46,12 @@ class UssProviderController extends Controller
         $this->authorize('create', UssProvider::class);
 
         $validated = $request->validated();
+        $validated['user_id'] = auth()->id();
 
         $uss_providers = UssProvider::create($validated);
 
         return redirect()
-            ->route('uss_providers.edit', $uss_providers)
+            ->route('uss-providers.edit', $uss_providers)
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -88,7 +89,7 @@ class UssProviderController extends Controller
         $uss_provider->update($validated);
 
         return redirect()
-            ->route('uss_providers.edit', $uss_provider)
+            ->route('uss-providers.edit', $uss_provider)
             ->withSuccess(__('crud.common.saved'));
     }
 
@@ -102,7 +103,7 @@ class UssProviderController extends Controller
         $uss_provider->delete();
 
         return redirect()
-            ->route('uss_providers.index')
+            ->route('uss-providers.index')
             ->withSuccess(__('crud.common.removed'));
     }
 }

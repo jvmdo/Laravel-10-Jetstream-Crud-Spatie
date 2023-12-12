@@ -18,7 +18,7 @@
                 </div>
 
                 @can('view-any', App\Models\UssProvider::class)
-                    <x-nav-link href="{{ route('uss-providers.index') }}" :active="request()->routeIs('uss-providers.index')">
+                    <x-nav-link href="{{ route('uss-providers.index') }}" :active="request()->routeIs('uss-providers.*')">
                         Your Provider
                     </x-nav-link>
                 @endcan
