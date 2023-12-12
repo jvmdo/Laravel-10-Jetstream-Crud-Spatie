@@ -33,7 +33,7 @@ class JetstreamServiceProvider extends ServiceProvider
             $user = User::where('email', $request->email)->first();
 
             // Common user trying to access admin area
-            if ($request->admin && !$user->hasRole('super-admin')) {
+            if ($request->admin && !$user->isSuperAdmin()) {
                 return null;
             }
 
