@@ -7,8 +7,12 @@
 
     @php
         $uss_provider = $status->ussProvider;
-        $status_plain = $status->status;
-        $color = $status_plain == 'EM_ANALISE' ? 'yellow' : ($status_plain == 'APROVADO' ? 'green' : 'red');
+        $statusColors = [
+            App\Enums\StatusEnum::EM_ANALISE()->label => 'yellow',
+            App\Enums\StatusEnum::APROVADO()->label => 'green',
+            App\Enums\StatusEnum::REPROVADO()->label => 'red',
+        ];
+        $color = $statusColors[$status->status];
     @endphp
 
     <div class="pt-12">
@@ -22,7 +26,7 @@
                             d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                     </svg>
                     <div>
-                        <span class="font-medium">Status:</span> {{ $status_plain }}
+                        <span class="font-medium">Status:</span> {{ implode(' ', explode('_', $status->status)) }}
                     </div>
                 </div>
             </x-partials.card>

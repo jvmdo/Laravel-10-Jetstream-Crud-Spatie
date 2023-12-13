@@ -1,5 +1,9 @@
 @php
-    use App\Enums\StatusEnum;
+    $statusColors = [
+        App\Enums\StatusEnum::EM_ANALISE()->label => 'yellow',
+        App\Enums\StatusEnum::APROVADO()->label => 'green',
+        App\Enums\StatusEnum::REPROVADO()->label => 'red',
+    ];
 @endphp
 
 <x-app-layout>
@@ -77,17 +81,9 @@
                                     <td class="px-4 py-3 text-left">
                                         {{ $status->ussProvider->drones ?? '-' }}
                                     </td>
-                                    @php
-                                        $status_name = implode(' ', explode('_', $status->status));
-                                        $statusColors = [
-                                            'EM ANALISE' => 'yellow',
-                                            'APROVADO' => 'green',
-                                            'REPROVADO' => 'red',
-                                        ];
-                                    @endphp
                                     <td
-                                        class="px-4 py-3 text-left text-{{ $statusColors[$status_name] }}-500 font-bold">
-                                        {{ $status_name ?? '-' }}
+                                        class="px-4 py-3 text-left text-{{ $statusColors[$status->status] }}-500 font-bold">
+                                        {{ implode(' ', explode('_', $status->status)) ?? '-' }}
                                     </td>
                                     <td class="px-4 py-3 text-center" style="width: 134px;">
                                         <div role="group" aria-label="Row Actions"
