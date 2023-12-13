@@ -1,3 +1,7 @@
+@php
+    use App\Enums\StatusEnum;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -13,6 +17,7 @@
                         <div class="md:w-1/2">
                             <form>
                                 <div class="flex items-center w-full">
+                                    {{-- TODO: fix search by name and empty field bug --}}
                                     <x-inputs.text name="search" value="{{ $search ?? '' }}"
                                         placeholder="{{ __('crud.common.search') }}" autocomplete="off"></x-inputs.text>
 
@@ -43,6 +48,15 @@
                                     Name
                                 </th>
                                 <th class="px-4 py-3 text-left">
+                                    Email
+                                </th>
+                                <th class="px-4 py-3 text-left">
+                                    CNPJ
+                                </th>
+                                <th class="px-4 py-3 text-left">
+                                    #Drones
+                                </th>
+                                <th class="px-4 py-3 text-left">
                                     Status
                                 </th>
                                 <th></th>
@@ -55,7 +69,25 @@
                                         {{ $status->ussProvider->name ?? '-' }}
                                     </td>
                                     <td class="px-4 py-3 text-left">
-                                        {{ implode(' ', explode('_', $status->status)) ?? '-' }}
+                                        {{ $status->ussProvider->email ?? '-' }}
+                                    </td>
+                                    <td class="px-4 py-3 text-left">
+                                        {{ $status->ussProvider->cnpj ?? '-' }}
+                                    </td>
+                                    <td class="px-4 py-3 text-left">
+                                        {{ $status->ussProvider->drones ?? '-' }}
+                                    </td>
+                                    @php
+                                        $status_name = implode(' ', explode('_', $status->status));
+                                        $statusColors = [
+                                            'EM ANALISE' => 'yellow',
+                                            'APROVADO' => 'green',
+                                            'REPROVADO' => 'red',
+                                        ];
+                                    @endphp
+                                    <td
+                                        class="px-4 py-3 text-left text-{{ $statusColors[$status_name] }}-500 font-bold">
+                                        {{ $status_name ?? '-' }}
                                     </td>
                                     <td class="px-4 py-3 text-center" style="width: 134px;">
                                         <div role="group" aria-label="Row Actions"
