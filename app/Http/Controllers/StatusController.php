@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusEnum;
 use App\Models\Status;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StatusStoreRequest;
 use App\Http\Requests\StatusUpdateRequest;
+use Spatie\Enum\Laravel\Rules\EnumRule;
 
 class StatusController extends Controller
 {
@@ -20,12 +22,13 @@ class StatusController extends Controller
 
         $search = $request->get('search', '');
 
-        $statuses = Status::search($search)
+        $statusesWithProvider = Status::with('ussProvider')
+            ->search($search)
             ->latest()
             ->paginate(5)
             ->withQueryString();
 
-        return view('app.statuses.index', compact('statuses', 'search'));
+        return view('app.statuses.index', compact('statusesWithProvider', 'search'));
     }
 
     /**
@@ -85,10 +88,11 @@ class StatusController extends Controller
 
         $validated = $request->validated();
 
+        // $status->update(['status' => $request->input('status')]);
         $status->update($validated);
 
         return redirect()
-            ->route('statuses.edit', $status)
+            ->route('statuses.index', $status)
             ->withSuccess(__('crud.common.saved'));
     }
 

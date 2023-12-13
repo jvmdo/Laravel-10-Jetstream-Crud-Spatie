@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\StatusEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Spatie\Enum\Laravel\Rules\EnumRule;
 
 class StatusUpdateRequest extends FormRequest
 {
@@ -24,8 +25,8 @@ class StatusUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['required', Rule::in(StatusEnum::toValues())],
-            // 'status' => [new Enum(StatusEnum::class)],
+            // 'status' => ['required', Rule::in(StatusEnum::toValues())],
+            'status' => [new EnumRule(StatusEnum::class)],
         ];
     }
 }
