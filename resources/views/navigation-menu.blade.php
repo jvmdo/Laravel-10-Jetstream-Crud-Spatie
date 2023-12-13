@@ -17,11 +17,23 @@
                     </x-nav-link>
                 </div>
 
-                @can('view-any', App\Models\UssProvider::class)
-                    <x-nav-link href="{{ route('uss-providers.index') }}" :active="request()->routeIs('uss-providers.*')">
-                        Your Provider
-                    </x-nav-link>
-                @endcan
+                @role('user')
+                    {{-- @can('view-any', App\Models\UssProvider::class) --}}
+                    <div class="space-x-8 sm:-my-px sm:ml-6 sm:flex">
+                        <x-nav-link href="{{ route('uss-providers.index') }}" :active="request()->routeIs('uss-providers.*')">
+                            Your Provider
+                        </x-nav-link>
+                    </div>
+                    {{-- @endcan --}}
+                @endrole
+
+                @role('super-admin')
+                    <div class="space-x-8 sm:-my-px sm:ml-6 sm:flex">
+                        <x-nav-link href="{{ route('statuses.index') }}" :active="request()->routeIs('statuses.*')">
+                            Provider List
+                        </x-nav-link>
+                    </div>
+                @endrole
 
 
                 @if (Auth::user()->can('view-any', Spatie\Permission\Models\Role::class) ||
