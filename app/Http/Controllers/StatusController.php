@@ -23,10 +23,16 @@ class StatusController extends Controller
         $search = $request->get('search', '');
 
         $statusesWithProvider = Status::with('ussProvider')
-            ->search($search)
+            ->where(function ($query) use ($search) {
+                $query->where('status', 'like', '%' . $search . '%')
+                    ->orWhereHas('ussProvider', function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%');
+                    });
+            })
             ->latest()
-            ->paginate(5)
-            ->withQueryString();
+            ->paginate(10)
+            // ->withQueryString(); //? Linter accuses error but everything is fine
+            ->appends(['search' => $request->search]); // Alternative
 
         return view('app.statuses.index', compact('statusesWithProvider', 'search'));
     }

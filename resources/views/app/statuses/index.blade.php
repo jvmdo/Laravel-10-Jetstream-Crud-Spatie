@@ -21,9 +21,9 @@
                         <div class="md:w-1/2">
                             <form>
                                 <div class="flex items-center w-full">
-                                    {{-- TODO: fix search by name and empty field bug --}}
                                     <x-inputs.text name="search" value="{{ $search ?? '' }}"
-                                        placeholder="{{ __('crud.common.search') }}" autocomplete="off"></x-inputs.text>
+                                        placeholder="{{ __('crud.common.search') }}" autocomplete="off"
+                                        autofocus></x-inputs.text>
 
                                     <div class="ml-1">
                                         <button type="submit" class="button button-primary">
@@ -99,7 +99,7 @@
                                                     </button>
                                                 </a>
                                             @endcan
-                                            @can('update', $status)
+                                            {{-- @can('update', $status)
                                                 <x-dropdown align="right" width="60">
                                                     <x-slot name="trigger">
                                                         <span class="inline-flex rounded-md">
@@ -128,7 +128,7 @@
                                                         </div>
                                                     </x-slot>
                                                 </x-dropdown>
-                                            @endcan
+                                            @endcan --}}
                                         </div>
                                     </td>
                                 </tr>
