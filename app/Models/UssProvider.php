@@ -17,6 +17,7 @@ class UssProvider extends Model
         'email',
         'cnpj',
         'drones',
+        'token',
         'user_id',
     ];
 

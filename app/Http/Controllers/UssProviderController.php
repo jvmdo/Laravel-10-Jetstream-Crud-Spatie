@@ -22,17 +22,14 @@ class UssProviderController extends Controller
         $this->authorize('view-any', UssProvider::class);
 
         $user_id = auth()->id();
-        $search = $request->get('search', '');
 
-        $uss_providers = UssProvider::search($search)
-            ->where('user_id', $user_id)
+        $uss_provider = UssProvider::where('user_id', $user_id)
             ->latest()
-            ->paginate(5)
-            ->withQueryString();
+            ->first();
 
         $userHasUssProvider = auth()->user()->ussProvider;
 
-        return view('app.uss-providers.index', compact('uss_providers', 'search', 'userHasUssProvider'));
+        return view('app.uss-providers.index', compact('uss_provider', 'userHasUssProvider'));
     }
 
     /**
@@ -82,10 +79,6 @@ class UssProviderController extends Controller
     {
         $this->authorize('update', $uss_provider);
 
-        $uss_provider->status()->update([
-            'status' => StatusEnum::EM_ANALISE(),
-        ]);
-
         return view('app.uss-providers.edit', compact('uss_provider'));
     }
 
@@ -101,6 +94,13 @@ class UssProviderController extends Controller
         $validated = $request->validated();
 
         $uss_provider->update($validated);
+        $uss_provider->update([
+            'token' => null,
+        ]);
+
+        $uss_provider->status()->update([
+            'status' => StatusEnum::EM_ANALISE(),
+        ]);
 
         return redirect()
             ->route('uss-providers.edit', $uss_provider)

@@ -5,6 +5,20 @@
         </h2>
     </x-slot>
 
+    @if (isset($uss_provider->token))
+        <div class="pt-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <x-partials.card>
+                    <div class="flex items-center p-4 text-sm rounded-lg bg-gray-100">
+                        <div>
+                            <span class="font-medium">Token:</span> {{ $uss_provider->token }}
+                        </div>
+                    </div>
+                </x-partials.card>
+            </div>
+        </div>
+    @endif
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-partials.card>
@@ -28,7 +42,7 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600">
-                            @forelse($uss_providers as $uss_provider)
+                            @if (isset($uss_provider))
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-4 py-3 text-left">
                                         {{ $uss_provider->name ?? '-' }}
@@ -79,23 +93,14 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @empty
+                            @else
                                 <tr>
                                     <td colspan="3">
                                         You have not registered your provider yet
                                     </td>
                                 </tr>
-                            @endforelse
+                            @endif
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="3">
-                                    <div class="mt-10 px-4">
-                                        {!! $uss_providers->render() !!}
-                                    </div>
-                                </td>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
 

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StatusStoreRequest;
 use App\Http\Requests\StatusUpdateRequest;
-use Spatie\Enum\Laravel\Rules\EnumRule;
+use Illuminate\Support\Facades\Http;
 
 class StatusController extends Controller
 {
@@ -94,12 +94,33 @@ class StatusController extends Controller
 
         $validated = $request->validated();
 
-        // $status->update(['status' => $request->input('status')]);
         $status->update($validated);
+        // Skip validation
+        // $status->update(['status' => $request->input('status')]);
+
+        if ($status->status == \App\Enums\StatusEnum::APROVADO()) {
+            $response = Http::get('http://127.0.0.1:8001/api/bearer');
+
+            if ($response->successful() && $response->ok()) {
+                $ussProvider = $status->ussProvider;
+                $token = $response->json()['token'];
+
+                $ussProvider->token = $token;
+                $ussProvider->save();
+            } else {
+                return redirect()
+                    ->back()
+                    ->with('danger', 'An error occurred');
+            }
+        } else {
+            $ussProvider = $status->ussProvider;
+            $ussProvider->token = null;
+            $ussProvider->save();
+        }
 
         return redirect()
             ->route('statuses.index', $status)
-            ->withSuccess(__('crud.common.saved'));
+            ->with('success', __('crud.common.saved'));
     }
 
     /**
